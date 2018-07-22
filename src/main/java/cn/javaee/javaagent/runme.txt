@@ -1,0 +1,27 @@
+# Run
+D:\>java -jar JavaAgent.jar
+Content size: 164
+Content size: 1761
+
+D:\>java -javaagent:JavaAgent.jar -jar JavaAgent.jar
+http://mail.163.com
+Content size: 164
+http://www.iteye.com
+Content size: 1761
+
+
+# MANIFEST.MF
+Manifest-Version: 1.0
+Class-Path: .
+Main-Class: cn.javaee.javaagent.SampleClass
+Premain-Class: cn.javaee.javaagent.SimpleAgent
+
+Name: org/apache/tools/ant/
+Implementation-Title: org.apache.tools.ant
+Implementation-Version: 1.9.6
+Specification-Vendor: Apache Software Foundation
+Specification-Title: Apache Ant
+Extension-name: org.apache.tools.ant
+Specification-Version: 1.9.6
+Implementation-Vendor: Apache Software Foundation
+

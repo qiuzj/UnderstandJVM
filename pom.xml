@@ -17,6 +17,7 @@
 		<commons-lang.version>3.6</commons-lang.version>
 		<cglib2.version>2.2.2</cglib2.version>
 		<cglib3.version>3.2.5</cglib3.version>
+		<javassist.version>3.22.0-GA</javassist.version>
 	</properties>
 
 	<dependencies>
@@ -49,6 +50,13 @@
 			<artifactId>cglib</artifactId>
 			<version>${cglib3.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>${javassist.version}</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
