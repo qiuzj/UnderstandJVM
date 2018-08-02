@@ -12,7 +12,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<jdk.version>1.7</jdk.version>
+		<jdk.version>1.8</jdk.version>
 		<junit.version>4.12</junit.version>
 		<commons-lang.version>3.6</commons-lang.version>
 		<cglib2.version>2.2.2</cglib2.version>
