@@ -1,3 +1,5 @@
+package sample.hotswap;
+
 import java.io.*;
 import javassist.util.HotSwapper;
 
