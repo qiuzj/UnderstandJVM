@@ -1,6 +1,12 @@
 package jvm.specification.se8.chapter3;
 
-public class InstructionConstant {
+/**
+ * 常量、局部变量、for循环
+ * 
+ * @author 二进制之路
+ *
+ */
+public class InstructionConstant32 {
 
 	void spin() {
 		int i;

@@ -46,6 +46,9 @@ public class TypeConversion {
 		d = l;
 		d = f;
 		System.out.println(String.format("%s~%s", Double.MIN_VALUE, Double.MAX_VALUE));
+		
+//		f = Long.MAX_VALUE;
+//		System.out.println(f);
 	}
 	
 }
