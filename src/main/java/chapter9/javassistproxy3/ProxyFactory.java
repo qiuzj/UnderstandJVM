@@ -20,7 +20,7 @@ public class ProxyFactory {
 
 		/* 2.给代理类添加字段：private InvocationHandler h; */
 		CtClass handlerCc = pool.get(InvocationHandler.class.getName());
-		CtField handlerField = new CtField(handlerCc, "h", proxyCc);
+		CtField handlerField = new CtField(handlerCc, "h", proxyCc); // CtField(CtClass fieldType, String fieldName, CtClass addToThisClass)
 		handlerField.setModifiers(AccessFlag.PRIVATE);
 		proxyCc.addField(handlerField);
 
@@ -43,25 +43,25 @@ public class ProxyFactory {
 			// 4.2.1 为代理类添加反射方法字段
 			// 如：private static Method m1 = Class.forName("chapter9.javassistproxy3.IHello").getDeclaredMethod("sayHello2", new Class[] { Integer.TYPE });
 			/* 构造反射字段声明及赋值语句 */
-			String classParamsStr = "new Class[0]";
-			if (ctMethods[i].getParameterTypes().length > 0) {
+			String classParamsStr = "new Class[0]"; // 方法的多个参数类型以英文逗号分隔
+			if (ctMethods[i].getParameterTypes().length > 0) { // getParameterTypes获取方法参数类型列表
 				for (CtClass clazz : ctMethods[i].getParameterTypes()) {
-					classParamsStr = ((classParamsStr == "new Class[0]") ? clazz.getName() : classParamsStr + "," + clazz.getName()) + ".class";
+					classParamsStr = (("new Class[0]".equals(classParamsStr)) ? clazz.getName() : classParamsStr + "," + clazz.getName()) + ".class";
 				}
 				classParamsStr = "new Class[] {" + classParamsStr + "}";
 			}
 			String methodFieldTpl = "private static java.lang.reflect.Method %s=Class.forName(\"%s\").getDeclaredMethod(\"%s\", %s);";
 			String methodFieldBody = String.format(methodFieldTpl, "m" + i, interfaceClass.getName(), ctMethods[i].getName(), classParamsStr);
-			// 为代理类添加反射方法字段
+			// 为代理类添加反射方法字段. CtField.make(String sourceCodeText, CtClass addToThisClass)
 			CtField methodField = CtField.make(methodFieldBody, proxyCc);
 			proxyCc.addField(methodField);
 			
 			System.out.println("methodFieldBody: " + methodFieldBody);
 			
 			/* 4.2.2 为方法添加方法体 */
-			/* 构造方法体 */
+			/* 构造方法体. this.h.invoke(this, 反射字段名, 方法参数列表); */
 			String methodBody = "$0.h.invoke($0, " + methodFieldName + ", $args)";
-			// 如果有返回类型，则需要转换为相应类型后返回
+			// 如果方法有返回类型，则需要转换为相应类型后返回，因为invoke方法的返回类型为Object
 			if (CtPrimitiveType.voidType != ctMethods[i].getReturnType()) {
 				// 对8个基本类型进行转型
 				// 例如：((Integer)this.h.invoke(this, this.m2, new Object[] { paramString, new Boolean(paramBoolean), paramObject })).intValue();
@@ -73,7 +73,7 @@ public class ProxyFactory {
 				}
 			}
 			methodBody += ";";
-			/* 为代理类添加方法 */
+			/* 为代理类添加方法. CtMethod(CtClass returnType, String methodName, CtClass[] parameterTypes, CtClass addToThisClass) */
 			CtMethod newMethod = new CtMethod(ctMethods[i].getReturnType(), ctMethods[i].getName(),
 					ctMethods[i].getParameterTypes(), proxyCc);
 			newMethod.setBody(methodBody);
